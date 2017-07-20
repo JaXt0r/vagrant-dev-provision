@@ -1,0 +1,21 @@
+---
+- name: update http_proxy settings
+  template:
+    src: proxy.sh.j2
+    dest: /etc/profile.d/proxy.sh
+    mode: 0644
+    owner: root
+    group: root
+
+- name: install git cli client and firefox
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - git
+    - firefox
+
+- name: create cache dir if not exists
+  file:
+    dest: "{{ download_cache_dir }}"
+    state: directory

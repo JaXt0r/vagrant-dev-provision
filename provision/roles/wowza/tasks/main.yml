@@ -1,0 +1,17 @@
+---
+- name: set Atom download url and archive name
+  set_fact:
+    wowza_download_base_url: "https://www.wowza.com/downloads/WowzaStreamingEngine-{{ wowza_version_strike }}"
+    wowza_archive_name: "WowzaStreamingEngine-{{ wowza_version_dot }}-linux-x64-installer.run"
+
+
+- name: create cache dir if not exists
+  file:
+    dest: "{{ download_cache_dir }}"
+    state: directory
+
+
+- name: download Wowza archive
+  get_url:
+    url:  "{{ wowza_download_base_url }}/{{ wowza_archive_name }}"
+    dest: "{{ download_cache_dir }}/{{ wowza_archive_name }}"

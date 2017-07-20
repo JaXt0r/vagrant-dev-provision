@@ -1,0 +1,20 @@
+---
+- name: set Atom download url and archive name
+  set_fact:
+    atom_download_base_url: "https://github.com/atom/atom/releases/download/{{ atom_version }}"
+    atom_archive_name: "atom.x86_64.rpm"
+
+- name: create cache dir if not exists
+  file:
+    dest: "{{ download_cache_dir }}"
+    state: directory
+
+- name: download Atom archive
+  get_url:
+    url:  "{{ atom_download_base_url }}/{{ atom_archive_name }}"
+    dest: "{{ download_cache_dir }}/{{ atom_version }}.{{ atom_archive_name }}"
+
+- name: Install Atom
+  yum:
+    name: "{{ download_cache_dir }}/{{ atom_version }}.{{ atom_archive_name }}"
+    state: present

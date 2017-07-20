@@ -1,0 +1,18 @@
+---
+- name: installing and configuring general  
+  hosts: all
+  become: true
+  roles:
+   - { role: general, tags: ["general"] }
+
+- name: installing and configuring Atom
+  hosts: all
+  become: true
+  roles:
+   - { role: atom, tags: ["atom"] }
+
+- name: installing and configuring wowza
+  hosts: all
+  become: true
+  roles:
+   - { role: wowza, tags: ["wowza"] }
