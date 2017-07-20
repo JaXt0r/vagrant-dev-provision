@@ -72,29 +72,28 @@ def configure_base( vm_machine_name, ansible_roles, vm_options = {}, ansible_opt
 				end
 			end
 		end
-
+		
 		## set ansible provisioner
 		## windows: ansible_local (sets up ansible in vm guest)
 		## others: require an ansible installation on the host machine
 		ansible_version = Vagrant::Util::Platform.windows? ? :ansible_local : :ansible
 		config.vm.provision ansible_version, run: "always" do |ansible|
-			if ansible_options.key?(:playbook)
-				ansible.playbook       = ansible_options[:playbook]
+			if ansible_options.has_key?('playbook')
+				ansible.playbook       = ansible_options.playbook
 			else
 				ansible.playbook       = "provision/playbook.yml"
 			end
-
 			ansible.verbose        = true
 			ansible.install        = true
 			ansible.limit          = "all"
-			if ansible_options.key?(:extra_vars)
-				ansible.extra_vars       = ansible_options[:extra_vars]
+			if ansible_options.has_key?('extra_vars')
+				ansible.extra_vars       = ansible_options.extra_vars
 			else
 				ansible.extra_vars     = "./user.settings.yml"
 			end
+			#ansible.inventory_path = "inventory"
 		end
-
-
+		
 		#fix:  “Warning: Unprotected Private Key File, this private key will be ignored.”
 		config.vm.synced_folder ".", "/vagrant", :owner=> 'vagrant', :group=>'vagrant', :mount_options => ['dmode=700', 'fmode=600'], type: "virtualbox"
 
