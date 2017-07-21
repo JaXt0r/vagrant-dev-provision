@@ -77,11 +77,19 @@ def configure_base( vm_machine_name, ansible_roles, vm_options = {}, ansible_opt
 		## windows: ansible_local (sets up ansible in vm guest)
 		## others: require an ansible installation on the host machine
 		ansible_version = Vagrant::Util::Platform.windows? ? :ansible_local : :ansible
-		config.vm.provision ansible_version, run: "always" do |ansible|
-			if ansible_options.key?(:playbook)
-				ansible.playbook       = ansible_options[:playbook]
+
+
+    config.vm.provision ansible_version, run: "always" do |ansible|
+
+      if ansible_options.key?(:tags)
+        ansible.tags = ansible_options[:tags]
+      end
+
+
+      if ansible_options.key?(:playbook)
+				ansible.playbook = ansible_options[:playbook]
 			else
-				ansible.playbook       = "provision/playbook.yml"
+				ansible.playbook = "provision/playbook.yml"
 			end
 
 			ansible.verbose        = true
