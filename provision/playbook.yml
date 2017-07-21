@@ -3,13 +3,13 @@
   hosts: all
   become: true
   roles:
-   - { role: general, tags: ["general"] }
+   - { role: general, tags: ["always"] }
 
 - name: installing and configuring Atom
   hosts: all
   become: true
   roles:
-   - { role: atom, tags: ["atom"] }
+   - { role: atom, tags: ["atom", "rolegroup-webdev"] }
 
 - name: installing and configuring wowza
   hosts: all
