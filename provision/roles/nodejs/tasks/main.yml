@@ -1,0 +1,7 @@
+---
+- name: install npm (node package manager) with corresponding nodejs server itself
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - nodejs

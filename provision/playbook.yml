@@ -1,17 +1,26 @@
 ---
-- name: installing and configuring general  
+- name: general tasks
   hosts: all
   become: true
   roles:
    - { role: general, tags: ["always"] }
 
-- name: installing and configuring Atom
+
+- name: Atom Editor
   hosts: all
   become: true
   roles:
-   - { role: atom, tags: ["atom", "rolegroup-webdev"] }
+   - { role: atom, tags: ["atom"] }
 
-- name: installing and configuring wowza
+
+- name: nodejs server
+  hosts: all
+  become: true
+  roles:
+   - { role: nodejs, tags: ["nodejs"] }
+
+
+- name: wowza streaming server
   hosts: all
   become: true
   roles:

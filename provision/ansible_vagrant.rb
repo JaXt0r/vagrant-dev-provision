@@ -5,7 +5,7 @@ require 'fileutils'
 require 'uri'
 
 
-def configure_base( vm_machine_name, ansible_roles, vm_options = {}, ansible_options = {}, &block )
+def configure_base( vm_machine_name, vm_options = {}, ansible_options = {}, &block )
 
   machine_options = {
 		memory: 4096
