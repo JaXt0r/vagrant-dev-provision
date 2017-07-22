@@ -18,3 +18,10 @@
   yum:
     name: "{{ download_cache_dir }}/{{ atom_version }}.{{ atom_archive_name }}"
     state: present
+
+- name: "Fix for black screen on GNOME (tested with: v18.0; @see: https://discuss.atom.io/t/atom-now-shows-a-black-screen-on-startup/33245)"
+  replace:
+    path: /usr/share/applications/atom.desktop
+    regexp: '^(Exec=/.*?/atom )(.*)$'
+    replace: '\1--disable-gpu \2'
+    backup: yes
