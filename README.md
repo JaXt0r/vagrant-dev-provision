@@ -1,4 +1,4 @@
-**Ansible Eclipse AWS Developer Box**
+# Vagrant Ansible Developer Box
 
 This project will create a developer machine for local development with the following toolchain:
 * Vagrant
@@ -13,7 +13,11 @@ The following items can be installed (excerpt):
 * Wowza Streaming Server
 * ...
 
-**Requirements**
+
+## Demo usage
+
+
+## Requirements
 
 Required:
 * Oracle Virtual Box (tested with 5.1.20)
@@ -24,7 +28,7 @@ Highly Recommended:
 * Vagrant cachier plugin[2]
 
 
-**Usage**
+## Usage
 1. Create a project like my-feature-dev-provision
 2. create the following folders:
     * 01_installation
