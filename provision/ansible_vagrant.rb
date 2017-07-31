@@ -5,21 +5,17 @@ require 'fileutils'
 require 'uri'
 
 
-def configure_base( vm_machine_name, vm_options = {}, ansible_options = {}, &block )
-
-  machine_options = {
-		memory: 4096
-	}.merge(vm_options)
-
-  # parse configuration from user.settings.yml  
+def install( &block )
+  # parse configuration from user.settings.yml
   settings_file = 'user.settings.yml'
   local_settings =  File.exists?( settings_file) ? YAML::load_file( settings_file ) : {}
   
   box_settings = local_settings.has_key?('box') ? local_settings['box'] : {}
   user_settings = local_settings.has_key?('user') ? local_settings['user'] : {}
+  ansible_settings = local_settings.has_key?('ansible') ? local_settings['ansible'] : {}
   general_settings = local_settings.has_key?('settings') ? local_settings['settings'] : {}
   system_settings = general_settings.has_key?('system') ? general_settings['system'] : {}
-  
+
   workstation_config = {
 	distro: ENV['DISTRO'] || box_settings['distro'] || 'coreos73-desktop',
 	DE: ENV['DESKTOP_ENVIRONMENT'] || box_settings['desktop_environment'] || 'gnome'
@@ -45,7 +41,7 @@ def configure_base( vm_machine_name, vm_options = {}, ansible_options = {}, &blo
   end
   
   # print user configuration
-  p user_data
+  p "userdata: " . user_data
   
   #configure vm
   puts "Work station conguration: #{workstation_config.inspect}"
@@ -81,15 +77,15 @@ def configure_base( vm_machine_name, vm_options = {}, ansible_options = {}, &blo
 
     config.vm.provision ansible_version, run: "always" do |ansible|
 
-      if ansible_options.key?(:tags)
-        ansible.tags = ansible_options[:tags]
+      if ansible_options.key?("tags")
+        ansible.tags = ansible_options["tags"]
       end
 
 
-      if ansible_options.key?(:playbook)
-				ansible.playbook = ansible_options[:playbook]
+      if ansible_options.key?("playbook")
+				ansible.playbook = ansible_options["playbook"]
 			else
-				ansible.playbook = "provision/playbook.yml"
+				ansible.playbook = "01_installation/provision/playbook.yml"
 			end
 
 			ansible.verbose        = true
@@ -194,4 +190,16 @@ def configure_base( vm_machine_name, vm_options = {}, ansible_options = {}, &blo
 		end
 		
 	end
+end
+
+
+
+def configure( &block )
+  p "configure project specific settings"
+end
+
+
+
+def customize( &block )
+  p "Customize User specific settings"
 end

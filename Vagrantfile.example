@@ -1,16 +1,12 @@
 require_relative '01_installation/provision/ansible_vagrant'
 
 
-ansible_tags = []
 
+# Download and Prepare base box with components
+install()
 
-vm_options = {
-	memory: 4096
-}
-ansible_options = {
-  playbook: "01_installation/provision/playbook.yml",
-  tags: ansible_tags # If uncommented there the existing roles will be used when tagged with these values.
-}
+# Configure project specific settings
+configure()
 
-
-configure_base( "Example", vm_options, ansible_options )
+# Customize user specific settings
+customize()

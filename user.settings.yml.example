@@ -1,6 +1,7 @@
 # Create a copy of this file as user.settings.yml and modify the settings as per your desire
 user:
   fullname: Firstname Lastname
+  email: john.doe@example.com
   private_key: ~/.ssh/id_rsa
   lang: de_DE.utf8
 settings:
@@ -9,6 +10,7 @@ settings:
     http_proxy: ''
     https_proxy: ''
     no_proxy: 'localhost, 172.0.0.1'
+
 box:
   distro: centos73-desktop
   usb2: true
@@ -17,11 +19,16 @@ box:
   monitorcount: 2
   paravirtprovider: default
   portforwardings:
-    webapp:
+    example:
       protocol: tcp
-      host-port: 8080
-      guest-port: 8080
+      host-port: 80
+      guest-port: 80
   shares:
     share:
-      host: D:\dev\share
-      guest: /usr/local/shared_data
+      host: D:\PATH\TO\code
+      guest: /home/vagrant/Documents
+
+ansible:
+  # Roles to install
+  roles: ["atom", "wowza"]
+  playbook: 01_installation/provision/playbook.yml
