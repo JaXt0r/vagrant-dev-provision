@@ -8,7 +8,8 @@ vm_options = {
 	memory: 4096
 }
 ansible_options = {
-  tags: ansible_tags, # If uncommented there the existing roles will be used when tagged with these values.
+  playbook: "01_installation/provision/playbook.yml",
+  tags: ansible_tags # If uncommented there the existing roles will be used when tagged with these values.
 }
 
 
