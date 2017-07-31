@@ -12,6 +12,7 @@ settings:
     no_proxy: 'localhost, 172.0.0.1'
 
 box:
+  name: example
   distro: centos73-desktop
   usb2: true
   memory: 4096

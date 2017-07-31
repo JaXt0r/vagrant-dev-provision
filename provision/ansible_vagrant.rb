@@ -17,34 +17,14 @@ def install( &block )
   system_settings = general_settings.has_key?('system') ? general_settings['system'] : {}
 
   workstation_config = {
-	distro: ENV['DISTRO'] || box_settings['distro'] || 'coreos73-desktop',
-	DE: ENV['DESKTOP_ENVIRONMENT'] || box_settings['desktop_environment'] || 'gnome'
+    distro: ENV['DISTRO'] || box_settings['distro'] || 'centos73-desktop',
+    DE: ENV['DESKTOP_ENVIRONMENT'] || box_settings['desktop_environment'] || 'gnome'
   }
-  
-  if user_settings.has_key?('fullname')
-	user_name_parts = user_settings['fullname'].split
-	user_data = {
-		fullname: user_settings['fullname'],
-		firstname: user_settings['first_name'] || user_name_parts.first.downcase,
-		lastname: user_settings['last_name'] || user_name_parts.last.downcase,
-		groupname: 'developers',
-		email: user_settings['email'] || "#{user_settings['fullname'].gsub(/\s/,'.').downcase}@example.com"
-	}
-  else
-	user_data = {
-		fullname: 'developer',
-		firstname: 'vagrant',
-		groupname: 'vagrant',
-		email: '',
-		username: 'vagrant',
-	}
-  end
-  
-  # print user configuration
-  p "userdata: " . user_data
-  
+
+
   #configure vm
   puts "Work station conguration: #{workstation_config.inspect}"
+
 
 	Vagrant.configure("2") do |config|
 
@@ -77,13 +57,13 @@ def install( &block )
 
     config.vm.provision ansible_version, run: "always" do |ansible|
 
-      if ansible_options.key?("tags")
-        ansible.tags = ansible_options["tags"]
+      if ansible_settings.key?("tags")
+        ansible.tags = ansible_settings["tags"]
       end
 
 
-      if ansible_options.key?("playbook")
-				ansible.playbook = ansible_options["playbook"]
+      if ansible_settings.key?("playbook")
+				ansible.playbook = ansible_settings["playbook"]
 			else
 				ansible.playbook = "01_installation/provision/playbook.yml"
 			end
@@ -91,10 +71,10 @@ def install( &block )
 			ansible.verbose        = true
 			ansible.install        = true
 			ansible.limit          = "all"
-			if ansible_options.key?(:extra_vars)
-				ansible.extra_vars       = ansible_options[:extra_vars]
+			if ansible_settings.key?("extra_vars")
+				ansible.extra_vars       = ansible_settings["extra_vars"]
 			else
-				ansible.extra_vars     = "./user.settings.yml"
+				ansible.extra_vars     = "../user.settings.yml"
 			end
 		end
 
@@ -125,7 +105,7 @@ def install( &block )
 		## customize vm configuration
 	    config.vm.provider :virtualbox do |vb|
 		  vb.gui = true
-		  vb.name = "#{vm_machine_name} - #{workstation_config[:distro].capitalize} with #{workstation_config[:DE].upcase}"
+		  vb.name = "#{box_settings["name"]} - #{workstation_config[:distro].capitalize} with #{workstation_config[:DE].upcase}"
 		  vb.customize ["modifyvm", :id, "--graphicscontroller", "vboxvga"]
 		  vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
 		  vb.customize ["modifyvm", :id, "--ioapic", "on"]
@@ -133,7 +113,7 @@ def install( &block )
 		  vb.customize ["modifyvm", :id, "--hwvirtex", "on"]
 		  vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
 		  vb.customize ["modifyvm", :id, "--draganddrop", "bidirectional"]
-		  vb.customize ["modifyvm", :id, "--groups", "/develop/#{vm_machine_name}"]
+		  vb.customize ["modifyvm", :id, "--groups", "/develop/#{box_settings["name"]}"]
 		  vb.customize ["modifyvm", :id, "--chipset", "ich9" ]
 		  vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
 
