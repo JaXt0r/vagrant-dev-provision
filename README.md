@@ -35,7 +35,10 @@ Highly Recommended:
     * 02_configuration
     * 03_customization
 3. Use this repository as git-subtree inside folder *01_installation*
-4. Duplicate the files *user.settings.yml.example* and *Vagrantfile.example* inside the root folder
+4. Copy the files inside the root folder
+    * *user.settings.yml.example*
+    * *Vagrantfile.example*
+    * *.gitignore*
 5. Edit the settings and remove the files suffix *.example* and change values as you like 
 3. Enter following command: `vagrant up`
 4. Virtual Box will start and vagrant+ansible will start provisioning your system
