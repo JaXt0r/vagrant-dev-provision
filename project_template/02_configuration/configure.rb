@@ -6,7 +6,7 @@ require 'uri'
 
 
 def configure( &block )
-  p "Setup project-specific config".
+  p "Setup project-specific config."
   p "Not implemented right now, because no use atm."
   p "Will be developed when needed."
 end
