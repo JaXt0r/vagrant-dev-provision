@@ -69,16 +69,11 @@ def install( &block )
       end
 
 
-      ansible.playbook = "01_installation/provision/playbook.yml"
+      ansible.playbook = "01_installation/playbook.yml"
 
       ansible.verbose        = true
       ansible.install        = true
       ansible.limit          = "all"
-      if ansible_settings.key?("extra_vars")
-        ansible.extra_vars       = ansible_settings["extra_vars"]
-      else
-        ansible.extra_vars     = "../user.settings.yml"
-      end
     end
 
 
