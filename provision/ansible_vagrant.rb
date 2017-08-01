@@ -25,8 +25,6 @@ def install( &block )
   system_settings   = general_settings['system']
 
   Vagrant.configure("2") do |config|
-
-
     ## disable auto update of VirtualBox guest addons, to prevent breakage of "shared folders" on update
     ## the combination of the used OS and the later vbguest addons might lead to breakage of the shared folder function.
     if Vagrant.has_plugin?("vagrant-vbguest")
@@ -50,10 +48,8 @@ def install( &block )
     ## set ansible provisioner
     ## windows: ansible_local (sets up ansible in vm guest)
     ## others: require an ansible installation on the host machine
-    ansible_version = Vagrant::Util::Platform.windows? ? :ansible_local : :ansible
-
-
-    config.vm.provision ansible_version, run: "always" do |ansible|
+    ansible_type = Vagrant::Util::Platform.windows? ? :ansible_local : :ansible
+    config.vm.provision ansible_type, run: "always" do |ansible|
 
       if ansible_settings.key?("tags")
         ansible.tags = ansible_settings["tags"]
@@ -141,28 +137,23 @@ def install( &block )
     
     ## add share mapping to vm
     if box_settings.has_key?('shares')
-      shares = box_settings['shares'] 
-      shares.each do |key,share|
-        if share.has_key?('host') && share.has_key?('guest') 
-          config.vm.synced_folder share["host"], share["guest"], type: "virtualbox"
-        end
+      box_settings['shares'].each do |key,share|
+        config.vm.synced_folder share["host"], share["guest"], type: "virtualbox"
       end
     end
 
     ## add port forwarding to vm
     if box_settings.has_key?('portforwardings')
-      portforwardings = box_settings['portforwardings'] 
-      portforwardings.each do |name,details|
-        if  details.has_key?('host-port') && details.has_key?('guest-port') 
-          if details.has_key?('protocol')
-            config.vm.network "forwarded_port", name: name, guest: details["guest-port"], host: details["host-port"], protocol: details["protocol"]
-          else
-            config.vm.network "forwarded_port", name: name, guest: details["guest-port"], host: details["host-port"]
-          end
+      box_settings['portforwardings'].each do |name,details|
+        if details.has_key?('protocol')
+          config.vm.network "forwarded_port", name: name, guest: details["guest-port"], host: details["host-port"], protocol: details["protocol"]
+        else
+          config.vm.network "forwarded_port", name: name, guest: details["guest-port"], host: details["host-port"]
         end
       end
     end
-    
+
+
   end
 end
 
