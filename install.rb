@@ -5,16 +5,6 @@ require 'fileutils'
 require 'uri'
 
 
-# Needed for right merging of config-values
-# @see https://stackoverflow.com/a/9381776/3680249
-class ::Hash
-    def deep_merge(second)
-        merger = proc { |key, v1, v2| Hash === v1 && Hash === v2 ? v1.merge(v2, &merger) : v2 }
-        self.merge(second, &merger)
-    end
-end
-
-
 
 def install( &block )
 
@@ -131,23 +121,23 @@ def install( &block )
       vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
 
       if box_settings.has_key?('memory')
-      vb.customize ["modifyvm", :id, "--memory", "#{box_settings['memory']}"]
+        vb.customize ["modifyvm", :id, "--memory", "#{box_settings['memory']}"]
       else
-      vb.customize ["modifyvm", :id, "--memory", "#{machine_options[:memory]}"]
+        vb.customize ["modifyvm", :id, "--memory", "#{machine_options[:memory]}"]
       end
 
       if box_settings.has_key?('cpus')
-       vb.customize ["modifyvm", :id, "--cpus", "#{box_settings['cpus']}"]
+        vb.customize ["modifyvm", :id, "--cpus", "#{box_settings['cpus']}"]
       else
-      vb.customize ["modifyvm", :id, "--cpus", "2"]
+        vb.customize ["modifyvm", :id, "--cpus", "2"]
       end
 
       if box_settings.has_key?('monitorcount')
-       vb.customize ["modifyvm", :id, "--monitorcount", "#{box_settings['monitorcount']}"]
+        vb.customize ["modifyvm", :id, "--monitorcount", "#{box_settings['monitorcount']}"]
       end
 
       if box_settings.has_key?('paravirtprovider')
-       vb.customize ["modifyvm", :id, "--paravirtprovider", "#{box_settings['paravirtprovider']}"]
+        vb.customize ["modifyvm", :id, "--paravirtprovider", "#{box_settings['paravirtprovider']}"]
       end
 
       if !user_settings.has_key?('usb2')
@@ -183,7 +173,7 @@ end
 
 
 def validate_schema( config )
-  puts "Validate yaml against schema."
+  puts "### Validate yaml against schema."
 
 
   schema = YAML.load_file('01_installation/settings.schema.yml')
@@ -196,3 +186,18 @@ def validate_schema( config )
     raise 'There are schema errors. Fix them before going on.'
   end
 end
+
+
+
+# Needed for right merging of config-values
+# @see https://stackoverflow.com/a/9381776/3680249
+class ::Hash
+    def deep_merge(second)
+        merger = proc { |key, v1, v2| Hash === v1 && Hash === v2 ? v1.merge(v2, &merger) : v2 }
+        self.merge(second, &merger)
+    end
+end
+
+
+
+private :validate_schema
