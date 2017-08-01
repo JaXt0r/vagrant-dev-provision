@@ -15,7 +15,7 @@ The following items can be installed (excerpt):
 
 
 ## Demo usage
-
+https://gitlab.dwbn.org/dwbn-tools/wowza-elevator-stream-provision/
 
 ## Requirements
 
@@ -34,9 +34,12 @@ Highly Recommended:
     * 01_installation
     * 02_configuration
     * 03_customization
-3. Use this repository as git-subtree inside folder 01_installation
-4. Duplicate the files *user.settings.yml.example* and *Vagrantfile* inside the root folder
-5. Edit the settings and remove the file suffix *.example* for the userfile 
+3. Use this repository as git-subtree inside folder *01_installation*
+4. Copy the files inside the root folder
+    * *user.settings.yml.example*
+    * *Vagrantfile.example*
+    * *.gitignore*
+5. Edit the settings and remove the files suffix *.example* and change values as you like 
 3. Enter following command: `vagrant up`
 4. Virtual Box will start and vagrant+ansible will start provisioning your system
 
