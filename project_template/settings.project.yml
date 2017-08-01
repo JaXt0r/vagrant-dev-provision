@@ -1,0 +1,28 @@
+# Use this file to set project specific config
+user:
+  lang: de_DE.utf8
+settings:
+  system:
+    use_proxy: false
+    http_proxy: ''
+    https_proxy: ''
+    no_proxy: 'localhost, 172.0.0.1'
+
+box:
+  usb2: true
+  memory: 4096
+  cpus: 2
+  monitorcount: 2
+  portforwardings:
+    tomcat:
+      protocol: tcp
+      host-port: 8080
+      guest-port: 8080
+  shares:
+    code:
+      host: D:\PATH\TO\code
+      guest: /home/vagrant/Documents
+
+ansible:
+  # Roles to install
+  roles: ["atom"]
