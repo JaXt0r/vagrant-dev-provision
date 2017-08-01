@@ -5,17 +5,39 @@ require 'fileutils'
 require 'uri'
 
 
+# Needed for right merging of config-values
+# @see https://stackoverflow.com/a/9381776/3680249
+class ::Hash
+    def deep_merge(second)
+        merger = proc { |key, v1, v2| Hash === v1 && Hash === v2 ? v1.merge(v2, &merger) : v2 }
+        self.merge(second, &merger)
+    end
+end
+
+
+
 def install( &block )
+
+  p "precheck installed plugins"
+  unless Vagrant.has_plugin?("kwalify")
+    raise "'kwalify' is not installed!"
+  end
+
+
   # parse configurations from threee setting's.yml
   default_settings  = YAML::load_file( '01_installation/settings.default.yml' )
   project_settings  = YAML::load_file( './settings.project.yml' )
   user_settings     = YAML::load_file( './settings.user.yml' )
 
-  full_settings     =  default_settings.merge(project_settings).merge(user_settings);
 
+  full_settings     =  default_settings.deep_merge(project_settings).deep_merge(user_settings);
+  
   puts "used settings (combination of default-/project-/user-settings):"
   puts full_settings.to_yaml
   puts "---"
+
+  validate_schema(full_settings)
+
 
   # Convenient shortcuts
   box_settings      = full_settings['box']
@@ -159,12 +181,17 @@ end
 
 
 
-def configure( &block )
-  p "configure project specific settings"
-end
+def validate_schema( config )
+  puts "Validate yaml against schema."
 
 
-
-def customize( &block )
-  p "Customize User specific settings"
+  schema = YAML.load_file('01_installation/settings.schema.yml')
+  validator = Kwalify::Validator.new(schema)
+  errors = validator.validate(config)
+  
+  if errors && !errors.empty?
+    puts "Schema errors:"
+    puts errors
+    raise 'There are schema errors. Fix them before going on.'
+  end
 end

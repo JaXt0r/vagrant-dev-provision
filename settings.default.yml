@@ -2,8 +2,7 @@
 user:
   fullname: Firstname Lastname
   email: john.doe@example.com
-  private_key: ~/.ssh/id_rsa
-  lang: de_DE.utf8
+  lang: en_US.utf8
 settings:
   system:
     use_proxy: false
@@ -21,7 +20,7 @@ box:
   monitorcount: 2
   paravirtprovider: default
   portforwardings:
-    example:
+    - name: example
       protocol: tcp
       host-port: 80
       guest-port: 80
@@ -33,4 +32,3 @@ box:
 ansible:
   # Roles to install
   roles: ["atom", "wowza"]
-  playbook: 01_installation/provision/playbook.yml

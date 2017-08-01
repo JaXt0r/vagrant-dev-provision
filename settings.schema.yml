@@ -1,0 +1,117 @@
+##
+## Kwalify schema example for address book
+##
+## $Release: 0.7.1 $
+## copyright(c) 2005-2008 kuwata-lab all rights reserved.
+##
+##
+## NOTE: 'type:  str' is omitted in this example because 'str' is default type.
+##
+
+type: map
+required: yes
+mapping:
+  user:
+    type: map
+    required: yes
+    mapping:
+      fullname:
+        type: str
+        pattern: "/\\s/"
+        required: yes
+      email:
+        type: str
+        required: yes
+        pattern: "/@.*\\./"
+      lang:
+        type: str
+        required: yes
+
+  settings:
+    type: map
+    required: yes
+    mapping:
+      system:
+        type: map
+        required: yes
+        mapping:
+          use_proxy:
+            type: bool
+            required: yes
+          http_proxy:
+            type: str
+            required: no
+          https_proxy:
+            type: str
+            required: no
+          no_proxy:
+            type: str
+            required: no
+
+  box:
+    type: map
+    required: yes
+    mapping:
+      name:
+        type: str
+        required: true
+      distro:
+        type: str
+        required: true
+      desktop_environment:
+        type: str
+        required: true
+      usb2:
+        type: bool
+      memory:
+        type: int
+        required: true
+      cpus:
+        type: int
+        required: true
+      monitorcount:
+        type: int
+      paravirtprovider:
+        type: str
+      portforwardings:
+        type: seq
+        sequence:
+          - type: map
+            mapping:
+              name:
+                type: str
+                required: false
+              protocol:
+                type: str
+                required: false
+                pattern: "/[tcp|udp]/"
+              host_port:
+                type: int
+                required: true
+              guest_port:
+                type: int
+                required: true
+      shares:
+        type: seq
+        sequence:
+          - type: map
+            mapping:
+              name:
+                type: str
+                required: false
+              host:
+                type: str
+                required: true
+              guest:
+                type: str
+                required: true
+
+  ansible:
+    type: map
+    required: yes
+    mapping:
+      roles:
+        type: seq
+        required: yes
+        sequence:
+          - type: str
