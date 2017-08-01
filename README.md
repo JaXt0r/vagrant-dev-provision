@@ -30,18 +30,11 @@ Highly Recommended:
 
 ## Usage
 1. Create a project like *my-feature-dev-provision*
-2. create the following folders:
-    * 01_installation
-    * 02_configuration
-    * 03_customization
-3. Use this repository as git-subtree inside folder *01_installation*
-4. Copy these files inside the root folder
-    * *settings.*.yml.example*
-    * *Vagrantfile.example*
-    * *.gitignore*
-5. Edit the settings and remove the files suffix *.example* and change values as you like 
-3. Enter following command: `vagrant up`
-4. Virtual Box will start and vagrant+ansible will start provisioning your system
+2. Use this repository as git-subtree inside folder *01_installation*
+3. copy the following folder into your root path: *project_template*
+4. Edit the following file: *settings.project.yml*
+5. Enter following command: `vagrant up`
+6. Virtual Box will start and vagrant+ansible will start provisioning your system
 
 ### Setting files
 The configuration is made of three files:
