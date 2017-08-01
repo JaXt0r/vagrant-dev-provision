@@ -80,7 +80,7 @@ mapping:
             mapping:
               name:
                 type: str
-                required: false
+                required: true
               protocol:
                 type: str
                 required: false
@@ -98,7 +98,7 @@ mapping:
             mapping:
               name:
                 type: str
-                required: false
+                required: true
               host:
                 type: str
                 required: true

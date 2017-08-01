@@ -46,6 +46,7 @@ def install( &block )
   general_settings  = full_settings['settings']
   system_settings   = general_settings['system']
 
+
   Vagrant.configure("2") do |config|
     ## disable auto update of VirtualBox guest addons, to prevent breakage of "shared folders" on update
     ## the combination of the used OS and the later vbguest addons might lead to breakage of the shared folder function.
@@ -159,18 +160,18 @@ def install( &block )
     
     ## add share mapping to vm
     if box_settings.has_key?('shares')
-      box_settings['shares'].each do |key,share|
+      box_settings['shares'].each do |share|
         config.vm.synced_folder share["host"], share["guest"], type: "virtualbox"
       end
     end
 
     ## add port forwarding to vm
     if box_settings.has_key?('portforwardings')
-      box_settings['portforwardings'].each do |name,details|
+      box_settings['portforwardings'].each do |details|
         if details.has_key?('protocol')
-          config.vm.network "forwarded_port", name: name, guest: details["guest-port"], host: details["host-port"], protocol: details["protocol"]
+          config.vm.network "forwarded_port", name: details['name'], guest: details["guest_port"], host: details["host_port"], protocol: details["protocol"]
         else
-          config.vm.network "forwarded_port", name: name, guest: details["guest-port"], host: details["host-port"]
+          config.vm.network "forwarded_port", name: details['name'], guest: details["guest_port"], host: details["host_port"]
         end
       end
     end
