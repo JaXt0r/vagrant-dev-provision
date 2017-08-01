@@ -36,7 +36,7 @@ Highly Recommended:
     * 03_customization
 3. Use this repository as git-subtree inside folder *01_installation*
 4. Copy these files inside the root folder
-    * *settings.*.yml.example*
+    * *settings.***.yml.example*
     * *Vagrantfile.example*
     * *.gitignore*
 5. Edit the settings and remove the files suffix *.example* and change values as you like 
