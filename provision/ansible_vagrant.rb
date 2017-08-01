@@ -6,31 +6,23 @@ require 'uri'
 
 
 def install( &block )
-  # parse configuration from user.settings.yml
-  settings_file = 'user.settings.yml'
-  
+  # parse configurations from threee setting's.yml
   default_settings  = YAML::load_file( '01_installation/settings.default.yml' )
   project_settings  = File.exists?( './settings.project.yml' ) ? YAML::load_file( './settings.project.yml' ) : {}
   user_settings     = File.exists?( './settings.user.yml' ) ? YAML::load_file( './settings.user.yml' ) : {}
-  full_settings =  default_settings.merge(project_settings).merge(user_settings);
 
-  puts "used settings (combination of default-/project-/user-settings):\n#{full_settings.to_yaml}"
+  full_settings     =  default_settings.merge(project_settings).merge(user_settings);
 
+  puts "used settings (combination of default-/project-/user-settings):"
+  puts full_settings.to_yaml
+  puts "---"
+
+  # Convenient shortcuts
   box_settings      = full_settings['box']
   user_settings     = full_settings['user']
   ansible_settings  = full_settings['ansible']
   general_settings  = full_settings['settings']
   system_settings   = general_settings['system']
-
-  workstation_config = {
-    distro: ENV['DISTRO'] || box_settings['distro'] || 'centos73-desktop',
-    DE: ENV['DESKTOP_ENVIRONMENT'] || box_settings['desktop_environment'] || 'gnome'
-  }
-
-
-  #configure vm
-  puts "Work station conguration: #{workstation_config.inspect}"
-
 
   Vagrant.configure("2") do |config|
 
@@ -107,7 +99,7 @@ def install( &block )
     ## customize vm configuration
       config.vm.provider :virtualbox do |vb|
       vb.gui = true
-      vb.name = "#{box_settings["name"]} - #{workstation_config[:distro].capitalize} with #{workstation_config[:DE].upcase}"
+      vb.name = "#{box_settings["name"]} - #{box_settings['distro'].capitalize} with #{box_settings['desktop_environment']}"
       vb.customize ["modifyvm", :id, "--graphicscontroller", "vboxvga"]
       vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
       vb.customize ["modifyvm", :id, "--ioapic", "on"]

@@ -14,6 +14,7 @@ settings:
 box:
   name: example
   distro: centos73-desktop
+  desktop_environment: Gnome
   usb2: true
   memory: 4096
   cpus: 2
