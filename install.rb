@@ -8,8 +8,8 @@ require 'uri'
 def install( &block )
   # parse configurations from threee setting's.yml
   default_settings  = YAML::load_file( '01_installation/settings.default.yml' )
-  project_settings  = File.exists?( './settings.project.yml' ) ? YAML::load_file( './settings.project.yml' ) : {}
-  user_settings     = File.exists?( './settings.user.yml' ) ? YAML::load_file( './settings.user.yml' ) : {}
+  project_settings  = YAML::load_file( './settings.project.yml' )
+  user_settings     = YAML::load_file( './settings.user.yml' )
 
   full_settings     =  default_settings.merge(project_settings).merge(user_settings);
 
