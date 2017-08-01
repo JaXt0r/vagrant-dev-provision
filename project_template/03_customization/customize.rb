@@ -6,7 +6,9 @@ require 'uri'
 
 
 def customize( &block )
-  p "Load user-specific folder. Name is taken from settings.user.yml - config."
-  p "Not implemented right now, because no use atm."
-  p "Will be developed when needed."
+  puts "-----"
+  puts "Load user-specific folder. Name is taken from settings.user.yml - config."
+  puts "Not implemented right now, because no use atm."
+  puts "Will be developed when needed."
+  puts "-----"
 end
