@@ -2,4 +2,10 @@
 user:
   fullname: John Doe
   email: john.doe@example.com
-  keyboard_layout: de
+  keyboard_layouts: de,en
+  
+box:
+  shares:
+    - name: code
+      host: D:\_\git\DWBN\wowza-elevator-stream
+      guest: /home/vagrant/Documents

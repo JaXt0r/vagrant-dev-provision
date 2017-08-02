@@ -14,14 +14,10 @@ box:
   cpus: 2
   monitorcount: 2
   portforwardings:
-    tomcat:
+    - name: tomcat
       protocol: tcp
       host-port: 8080
       guest-port: 8080
-  shares:
-    code:
-      host: D:\PATH\TO\code
-      guest: /home/vagrant/Documents
 
 ansible:
   # Roles to install
