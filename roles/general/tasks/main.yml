@@ -14,6 +14,9 @@
     - git
     - firefox
 
+#- name: set keyboard layout
+#  shell: "setxkbmap {{ user.keyboard_layout }}"
+
 - name: "prevent initial setup popup (https://seven.centos.org/2013/12/preventing-gnome3s-initial-setup/)"
   when: "box.desktop_environment|lower == 'gnome'"
   copy:

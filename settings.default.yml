@@ -2,7 +2,6 @@
 user:
   fullname: Firstname Lastname
   email: john.doe@example.com
-  lang: en_US.utf8
 settings:
   system:
     use_proxy: false

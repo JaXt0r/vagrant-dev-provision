@@ -1,6 +1,6 @@
 # Use this file to set project specific config
 user:
-  lang: de_DE.utf8
+  keyboard_layout: en
 settings:
   system:
     use_proxy: false

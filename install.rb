@@ -3,15 +3,13 @@
 require 'yaml'
 require 'fileutils'
 require 'uri'
+require './01_installation/vagrant_plugins/vagrant-provision-reboot-plugin'
 
 
 
 def install( &block )
 
-  p "precheck installed plugins"
-  unless Vagrant.has_plugin?("kwalify")
-    raise "'kwalify' is not installed!"
-  end
+  install_plugins()
 
 
   # parse configurations from threee setting's.yml
@@ -40,21 +38,18 @@ def install( &block )
   Vagrant.configure("2") do |config|
     ## disable auto update of VirtualBox guest addons, to prevent breakage of "shared folders" on update
     ## the combination of the used OS and the later vbguest addons might lead to breakage of the shared folder function.
-    if Vagrant.has_plugin?("vagrant-vbguest")
-      config.vbguest.auto_update = false
-    end
-  
-    if Vagrant.has_plugin?("vagrant-proxyconf")
-      if system_settings['use_proxy']
-        if system_settings.has_key?('http_proxy')
-          config.proxy.http = "http://#{system_settings['http_proxy']}"
-        end
-        if system_settings.has_key?('https_proxy')
-          config.proxy.https = "http://#{system_settings['https_proxy']}"
-        end
-        if system_settings.has_key?('no_proxy')
-          config.proxy.no_proxy = "#{system_settings['no_proxy']}"
-        end
+    config.vbguest.auto_update = false
+
+
+    if system_settings['use_proxy']
+      if system_settings.has_key?('http_proxy')
+        config.proxy.http = "http://#{system_settings['http_proxy']}"
+      end
+      if system_settings.has_key?('https_proxy')
+        config.proxy.https = "http://#{system_settings['https_proxy']}"
+      end
+      if system_settings.has_key?('no_proxy')
+        config.proxy.no_proxy = "#{system_settings['no_proxy']}"
       end
     end
 
@@ -76,6 +71,10 @@ def install( &block )
       ansible.limit          = "all"
       ansible.extra_vars     = full_settings
     end
+    
+    # Reboot after provisioning
+    # Needed to have Desktop settings applied
+    config.vm.provision :unix_reboot
 
 
     #fix:  “Warning: Unprotected Private Key File, this private key will be ignored.”
@@ -92,15 +91,14 @@ def install( &block )
     config.ssh.insert_key = true
 
     ### add caching mapping to vm
-    if Vagrant.has_plugin?("vagrant-cachier")
-      config.cache.scope = :machine
-      config.cache.enable :yum
-      config.cache.enable :npm
-      config.cache.enable :generic, {
-        "wget" => { cache_dir: "/var/cache/wget" }
-      }
-    end
-  
+    config.cache.scope = :machine
+    config.cache.enable :yum
+    config.cache.enable :npm
+    config.cache.enable :generic, {
+      "wget" => { cache_dir: "/var/cache/wget" }
+    }
+
+
     ## customize vm configuration
       config.vm.provider :virtualbox do |vb|
       vb.gui = true
@@ -168,6 +166,22 @@ end
 
 
 
+def install_plugins()
+  required_plugins = %w(vagrant-vbguest vagrant-cachier kwalify)
+
+  plugins_to_install = required_plugins.select { |plugin| not Vagrant.has_plugin? plugin }
+  if not plugins_to_install.empty?
+    puts "Installing plugins: #{plugins_to_install.join(' ')}"
+    if system "vagrant plugin install #{plugins_to_install.join(' ')}"
+      exec "vagrant #{ARGV.join(' ')}"
+    else
+      abort "Installation of one or more plugins has failed. Aborting."
+    end
+  end
+end
+
+
+
 def validate_schema( config )
   puts "### Validate yaml against schema."
 
@@ -196,4 +210,4 @@ end
 
 
 
-private :validate_schema
+private :install_plugins, :validate_schema
