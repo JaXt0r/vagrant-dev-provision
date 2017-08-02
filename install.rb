@@ -59,9 +59,7 @@ def install( &block )
     ansible_type = Vagrant::Util::Platform.windows? ? :ansible_local : :ansible
     config.vm.provision ansible_type, run: "always" do |ansible|
 
-      if ansible_settings.key?("tags")
-        ansible.tags = ansible_settings["tags"]
-      end
+      ansible.tags = ansible_settings["roles"]
 
 
       ansible.playbook = "01_installation/playbook.yml"
