@@ -14,3 +14,9 @@
   get_url:
     url:  "{{ wowza_download_base_url }}/{{ wowza_archive_name }}"
     dest: "{{ download_cache_dir }}/{{ wowza_archive_name }}"
+
+- name: We cannot instal wowza via CLI. therefore we create a symlink for manual installation from desktop.
+  file:
+    src: "{{ download_cache_dir }}/{{ wowza_archive_name }}"
+    dest: "/home/vagrant/Desktop/{{ wowza_archive_name }}"
+    state: link
