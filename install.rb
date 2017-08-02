@@ -74,6 +74,7 @@ def install( &block )
       ansible.verbose        = true
       ansible.install        = true
       ansible.limit          = "all"
+      ansible.extra_vars     = full_settings
     end
 
 
@@ -103,7 +104,7 @@ def install( &block )
     ## customize vm configuration
       config.vm.provider :virtualbox do |vb|
       vb.gui = true
-      vb.name = "#{box_settings["name"]} - #{box_settings['distro'].capitalize} with #{box_settings['desktop_environment']}"
+      vb.name = "#{box_settings["name"]} - #{box_settings['distro'].gsub("/","-")} with #{box_settings['desktop_environment']}"
       vb.customize ["modifyvm", :id, "--graphicscontroller", "vboxvga"]
       vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
       vb.customize ["modifyvm", :id, "--ioapic", "on"]
