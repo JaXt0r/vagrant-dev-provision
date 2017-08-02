@@ -6,6 +6,13 @@
     owner: root
     group: root
 
+- name: set keyboard layout(s) No.1
+  become: true
+  shell: "localectl set-keymap {{ user.keyboard_layouts }}"
+- name: set keyboard layout(s) No.2
+  become: true
+  shell: "localectl set-x11-keymap {{ user.keyboard_layouts }}"
+
 - name: install git cli client and firefox
   yum:
     name: "{{ item }}"
@@ -13,9 +20,6 @@
   with_items:
     - git
     - firefox
-
-#- name: set keyboard layout
-#  shell: "setxkbmap {{ user.keyboard_layout }}"
 
 - name: "prevent initial setup popup (https://seven.centos.org/2013/12/preventing-gnome3s-initial-setup/)"
   when: "box.desktop_environment|lower == 'gnome'"

@@ -23,10 +23,10 @@ mapping:
         type: str
         required: yes
         pattern: "/@.*\\./"
-      keyboard_layout:
+      keyboard_layouts:
         type: str
         required: yes
-        pattern: /^\w{2,2}$/
+        pattern: /^(\w{2,2})(,\w{2,2})*?$/
 
   settings:
     type: map
