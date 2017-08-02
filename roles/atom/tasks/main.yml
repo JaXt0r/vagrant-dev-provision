@@ -1,4 +1,3 @@
----
 - name: set Atom download url and archive name
   set_fact:
     atom_download_base_url: "https://github.com/atom/atom/releases/download/{{ atom_version }}"
@@ -20,6 +19,7 @@
     state: present
 
 - name: "Fix for black screen on GNOME (tested with: v18.0; @see: https://discuss.atom.io/t/atom-now-shows-a-black-screen-on-startup/33245)"
+  when: "box.desktop_environment|lower == 'gnome'"
   replace:
     path: /usr/share/applications/atom.desktop
     regexp: '^(Exec=/.*?/atom )(.*)$'

@@ -1,4 +1,3 @@
----
 - name: update http_proxy settings
   template:
     src: proxy.sh.j2
@@ -14,6 +13,12 @@
   with_items:
     - git
     - firefox
+
+- name: "prevent initial setup popup (https://seven.centos.org/2013/12/preventing-gnome3s-initial-setup/)"
+  when: "box.desktop_environment|lower == 'gnome'"
+  copy:
+    dest: /home/vagrant/.config/gnome-initial-setup-done
+    content: yes
 
 - name: create cache dir if not exists
   file:
