@@ -1,0 +1,102 @@
+- name: set eclipse vars from defaults or settings
+  set_fact:
+    eclipse_package: "{{eclipse.distros[eclipse.distro].package}}"
+    eclipse_update: "{{eclipse.distros[eclipse.distro].latest_service_release}}"
+    eclipse_url: "{{eclipse.url}}"
+
+
+- name: set name of tar file
+  set_fact:
+    eclipse_file_tar: "eclipse-{{ eclipse_package }}-{{ eclipse.distro }}-{{ eclipse_update }}-{{ eclipse.os }}-{{ eclipse.gui }}-{{ eclipse.arch }}.tar.gz"
+
+
+- name: set packages download url, destination path and install directory
+  set_fact:
+    eclipse_download_url: "{{eclipse_url}}/{{eclipse.distro}}/{{eclipse_update}}/{{eclipse_file_tar}}&r=1"
+    eclipse_package_download_path: "{{ eclipse.download_cache_dir }}/{{ eclipse_file_tar }}"
+
+
+- name: set eclipse installation directory
+  set_fact:
+    eclipse_install_dir: "{{eclipse.installation_directory ~ '-' ~ eclipse.distro}}"
+
+
+- name: set name of unpacked eclipse directory
+  set_fact:
+    eclipse_unpack_dir: "{{ eclipse_install_dir ~ '/eclipse'}}"
+    eclipse_ini_path: "{{ eclipse_install_dir ~ '/eclipse/eclipse.ini' }}"
+
+
+- name: create install directory
+  file:
+    dest: "{{ eclipse_install_dir }}"
+    state: directory
+
+
+- name: download eclipse archive
+  get_url:
+    url:  "{{ eclipse_download_url }}"
+    dest: "{{ eclipse_package_download_path}}"
+
+
+- name: unpack eclipse archives
+  unarchive:
+    src: "{{ eclipse_package_download_path }}"
+    dest: "{{ eclipse_install_dir }}"
+    creates: "{{ eclipse_ini_path }}"
+
+
+- name: configure eclipse settings
+  template:
+    src: eclipse.ini.j2
+    dest: "{{ eclipse_ini_path }}"
+    owner: root
+    group: root
+    mode: 0644
+
+
+- name: create directory for eclipse proxy seettings
+  file:
+    dest: "{{ eclipse_unpack_dir }}/director/configuration/.settings"
+    state: directory
+
+
+- name: configure eclipse proxy settings
+  template:
+    src: org.eclipse.core.net.prefs.j2
+    dest: "{{ eclipse_unpack_dir }}/director/configuration/.settings/org.eclipse.core.net.prefs"
+    owner: root
+    group: root
+    mode: 0644
+
+
+- name: add eclipse icon to gnome start menu
+  template:
+    src: eclipse.desktop.j2
+    dest: /usr/share/applications/eclipse.desktop
+    owner: root
+    group: root
+    mode: 0644
+
+
+- name: create plugins install command
+  set_fact:
+    plugin_install_command: "{{ eclipse_unpack_dir }}/eclipse -nosplash \
+      -application org.eclipse.equinox.p2.director \
+      -destination {{ eclipse_unpack_dir}} \
+      -p2.os {{ eclipse.os  }} \
+      -p2.ws {{ eclipse.gui }} \
+      -p2.arch {{ ansible_architecture }}"
+
+
+- name: install eclipse plugins
+  command: "{{ plugin_install_command }} \
+    -repository \
+    {{ (['http://download.eclipse.org/releases/' + eclipse.distro] + eclipse.plugins[item].repositories) | join(',') }} \
+    -installIU \
+    {{ eclipse.plugins[item].install_units | join(',') }} \
+    -tag ansible_install_plugin_{{ item }}"
+  args:
+    creates: "{{ eclipse_unpack_dir}}/*/{{ eclipse.plugins[item].creates_feature }}*"
+  with_items: '{{ eclipse.plugins }}'
+  when: (eclipse.plugins[item] is defined)

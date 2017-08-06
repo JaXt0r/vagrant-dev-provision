@@ -1,0 +1,16 @@
+eclipse.preferences.version=1
+org.eclipse.core.net.hasMigrated=true
+{% if (settings.system.use_proxy is defined) and (settings.system.use_proxy == true) %}
+proxiesEnabled=true
+systemProxiesEnabled=true
+{% else %}
+proxiesEnabled=false
+systemProxiesEnabled=false
+{% endif %}
+nonProxiedHosts={% if (settings.system.no_proxy is defined) %}{{ settings.system.no_proxy.replace(',','|') }}{% endif %}
+proxyData/HTTP/hasAuth=false
+proxyData/HTTP/host={% if (settings.system.http_proxy) %}{{ settings.system.http_proxy.split(':')[0] }}{% endif %}
+proxyData/HTTP/port={% if (settings.system.http_proxy) %}{{ settings.system.http_proxy.split(':')[1] }}{% endif %}
+proxyData/HTTPS/hasAuth=false
+proxyData/HTTPS/host={% if (settings.system.https_proxy) %}{{ settings.system.https_proxy.split(':')[0] }}{% endif %}
+proxyData/HTTPS/port={% if (settings.system.https_proxy) %}{{ settings.system.https_proxy.split(':')[1] }}{% endif %}
