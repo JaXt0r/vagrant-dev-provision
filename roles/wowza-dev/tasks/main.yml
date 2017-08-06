@@ -1,0 +1,22 @@
+- name: set informations of installed eclipse directory
+  set_fact:
+    eclipse_install_dir: "{{wowza_dev.eclipse.install_dir ~ '-' ~ eclipse.distro}}"
+    eclipse_unpack_dir: "{{ eclipse_install_dir ~ '/eclipse'}}"
+
+- name: create plugins install command
+  set_fact:
+    plugin_install_command: "{{ eclipse_unpack_dir }}/eclipse -nosplash \
+      -application org.eclipse.equinox.p2.director \
+      -destination {{ eclipse_unpack_dir}} \
+      -p2.os       {{ eclipse.os  }} \
+      -p2.ws       {{ eclipse.gui }} \
+      -p2.arch     {{ ansible_architecture }}"
+
+
+- name: install wowza eclipse plugin
+  command: "{{ plugin_install_command }} \
+    -repository {{ wowza_dev.eclipse.wowza_plugin.repository }} \
+    -installIU  {{ wowza_dev.eclipse.wowza_plugin.id }} \
+    -tag ansible_install_plugin_wowza_dev"
+  args:
+    creates: "{{ eclipse_unpack_dir}}/*/{{ wowza_dev.eclipse.wowza_plugin.feature_name }}*"

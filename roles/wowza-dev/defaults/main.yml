@@ -1,0 +1,11 @@
+wowza_dev:
+  eclipse:
+    install_dir: "/opt/sw/eclipse"
+    distro: "neon"
+    os: linux
+    gui: "gtk"
+
+    wowza_plugin:
+      repository: "http://www.wowza.com/wowzaide4/"
+      id: wowzamediaserverprosdkfeature.feature.group
+      feature_name: wowzamediaserverprosdkfeature.feature.latest
