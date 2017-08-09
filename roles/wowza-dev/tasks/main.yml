@@ -23,10 +23,15 @@
 
 
 # @see https://wiki.centos.org/de/TipsAndTricks/MultimediaOnCentOS7
-- name: install nux-desktop as repo. It is needed for installation of VLC.
+- name: install nux-desktop as repo. It is needed for installation of VLC and ffmpeg.
   yum:
     name: "http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm"
 - name: install VLC. Will be used to set up a demo stream.
   yum:
     name: vlc
     state: present
+- name: install ffmped. Will be used to set up a demo stream.
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items: [ffmpeg ffmpeg-devel]
