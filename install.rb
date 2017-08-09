@@ -3,7 +3,7 @@
 require 'yaml'
 require 'fileutils'
 require 'uri'
-require './01_installation/vagrant_plugins/vagrant-provision-reboot-plugin'
+require './01_installation/plugins_vagrant/vagrant-provision-reboot-plugin'
 
 
 
