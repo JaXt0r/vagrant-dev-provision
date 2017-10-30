@@ -1,4 +1,0 @@
-- name: create cache dir if not exists
-  file:
-    dest: "{{ download_cache_dir }}"
-    state: directory

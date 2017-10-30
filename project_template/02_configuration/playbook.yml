@@ -1,5 +1,0 @@
-- name: example
-  hosts: all
-  become: true
-  roles:
-   - { role: general, tags: ["example"] }
