@@ -13,8 +13,11 @@ The following items can be installed (excerpt):
 * ...
 
 
-## Requirements
+## Demo usage
+Can be visited in project **demo-project-provision**
 
+
+## Requirements
 Required:
 * Oracle Virtual Box (tested with 5.1.20)
 * Vagrant (tested with 1.9.2)
