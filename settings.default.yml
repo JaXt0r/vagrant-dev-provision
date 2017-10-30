@@ -30,4 +30,4 @@ box:
 
 ansible:
   # Roles to install
-  roles: ["atom", "wowza"]
+  roles: ["atom"]
