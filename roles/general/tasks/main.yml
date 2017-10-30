@@ -6,6 +6,22 @@
     owner: root
     group: root
 
+# Lasts way to long.
+#- name: Update yum itself
+#  become: true
+#  shell: "yum -y update"
+
+
+- name: install some generic used elements
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - yum-utils
+    - "@Development tools"
+    - git
+
+
 - name: set keyboard layout(s) No.1
   become: true
   shell: "localectl set-keymap {{ user.keyboard_layouts }}"
@@ -13,13 +29,6 @@
   become: true
   shell: "localectl set-x11-keymap {{ user.keyboard_layouts }}"
 
-- name: install git cli client and firefox
-  yum:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - git
-    - firefox
 
 - name: "prevent initial setup popup (https://seven.centos.org/2013/12/preventing-gnome3s-initial-setup/)"
   when: "box.desktop_environment|lower == 'gnome'"

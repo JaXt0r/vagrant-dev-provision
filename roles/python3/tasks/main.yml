@@ -1,0 +1,17 @@
+# For installation instructions on Centos7
+# @see https://www.digitalocean.com/community/tutorials/how-to-install-python-3-and-set-up-a-local-programming-environment-on-centos-7
+
+- name: setup repository to install python3
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "https://centos7.iuscommunity.org/ius-release.rpm"
+
+- name: install python3.x with corresponding install service pip
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - python36u
+    - python36u-pip
