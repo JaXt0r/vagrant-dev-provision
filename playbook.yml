@@ -33,15 +33,3 @@
   become: true
   roles:
    - { role: nodejs, tags: ["nodejs"] }
-
-# Wowza
-- name: wowza streaming server
-  hosts: all
-  become: true
-  roles:
-   - { role: wowza, tags: ["wowza"] }
-- name: wowza development with preconfigured eclipse
-  hosts: all
-  become: true
-  roles:
-   - { role: wowza-dev, tags: ["wowza-dev"] }

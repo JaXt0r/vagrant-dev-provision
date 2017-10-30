@@ -10,12 +10,8 @@ The following items can be installed (excerpt):
 
 * Atom IDE
 * NPM
-* Wowza Streaming Server
 * ...
 
-
-## Demo usage
-https://gitlab.dwbn.org/dwbn-tools/wowza-elevator-stream-provision/
 
 ## Requirements
 
@@ -48,8 +44,8 @@ The configuration is made of three files:
 
 
 =======
-The first time the virtual machine is started, the provisioning might take a 
-while. This means that when the virtual machine is available, the various 
+The first time the virtual machine is started, the provisioning might take a
+while. This means that when the virtual machine is available, the various
 components might not be immediately available. You can
 check the output of the `vagrant up` command to see the status.
 

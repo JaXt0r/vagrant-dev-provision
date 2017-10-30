@@ -1,4 +1,0 @@
----
-wowza_version_dot: "4.7.0"
-wowza_version_strike: "4-7-0"
-download_cache_dir: "/tmp/vagrant-cache/wget/wowza"
