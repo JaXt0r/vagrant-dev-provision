@@ -190,8 +190,10 @@ def validate_schema( config )
   errors = validator.validate(config)
 
   if errors && !errors.empty?
-    puts "Schema errors:"
+    puts "\n\n"
+    puts "### Schema errors:"
     puts errors
+    puts "\n\n"
     raise 'There are schema errors. Fix them before going on.'
   end
 end

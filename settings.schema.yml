@@ -11,6 +11,9 @@
 type: map
 required: yes
 mapping:
+  project:
+    type: any
+
   user:
     type: map
     required: yes
