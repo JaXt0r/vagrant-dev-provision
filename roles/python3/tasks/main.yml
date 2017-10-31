@@ -13,5 +13,10 @@
     name: "{{ item }}"
     state: present
   with_items:
-    - python36u
-    - python36u-pip
+    - python34u
+    - python34u-pip
+
+- name: install python's virtualenv
+  pip:
+    executable: pip3.4
+    name: virtualenv
