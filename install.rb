@@ -99,7 +99,7 @@ def install( &block )
 
 
     ## customize vm configuration
-      config.vm.provider :virtualbox do |vb|
+    config.vm.provider :virtualbox do |vb|
       vb.gui = true
       vb.name = "#{box_settings["name"]} - #{box_settings['distro'].gsub("/","-")} with #{box_settings['desktop_environment']}"
       vb.customize ["modifyvm", :id, "--graphicscontroller", "vboxvga"]
