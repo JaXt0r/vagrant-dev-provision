@@ -1,0 +1,6 @@
+- name: install java-openjdk and its build tools (maven, ...)
+  yum:
+    name: "{{ item }}"
+  with_items:
+    - java-1.8.0-openjdk
+    - maven
