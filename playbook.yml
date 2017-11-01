@@ -34,10 +34,14 @@
   roles:
    - { role: nodejs, tags: ["nodejs"] }
 
-
-
 - name: python3
   hosts: all
   become: true
   roles:
    - { role: python3, tags: ["python3"] }
+
+- name: java
+  hosts: all
+  become: true
+  roles:
+   - { role: java, tags: ["java"] }
