@@ -21,8 +21,8 @@
 
 - name: set proxy to apm (atom package manager)
   when: settings.system.use_proxy
-  shell: "apm config set http-proxy {{ settings.system.http_proxy }}"
-  shell: "apm config set https-proxy {{ settings.system.https_proxy }}"
+  become: false
+  shell: "apm config set proxy http://{{ settings.system.http_proxy }}"
 
 
 - name: "Fix for black screen on GNOME (tested with: v18.0; @see: https://discuss.atom.io/t/atom-now-shows-a-black-screen-on-startup/33245)"

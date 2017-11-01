@@ -1,4 +1,6 @@
-{% if (settings.system.use_proxy is defined) and (settings.system.use_proxy == true) %} 
+#jinja2: trim_blocks:False
+
+{% if (settings.system.use_proxy is defined) and (settings.system.use_proxy == true) %}
 export http_proxy={%if (settings.system.http_proxy is defined) %}{{ settings.system.http_proxy }}{% endif %}
 export https_proxy={%if (settings.system.https_proxy is defined) %}{{ settings.system.https_proxy }}{% endif %}
 export no_proxy={%if (settings.system.no_proxy is defined) %}{{ settings.system.no_proxy }}{% endif %}
