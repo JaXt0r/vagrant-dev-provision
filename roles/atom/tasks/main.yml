@@ -32,3 +32,8 @@
     regexp: '^(Exec=/.*?/atom )(.*)$'
     replace: '\1--disable-gpu \2'
     backup: yes
+
+- name: Copy application shortcut to desktop
+  copy:
+    src: /usr/share/applications/atom.desktop
+    dest: /home/vagrant/Desktop/atom
