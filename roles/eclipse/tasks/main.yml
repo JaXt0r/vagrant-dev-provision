@@ -78,6 +78,11 @@
     group: root
     mode: 0644
 
+- name: Copy application shortcut to desktop
+  copy:
+    src: /usr/share/applications/eclipse.desktop
+    dest: /home/vagrant/Desktop/eclipse
+
 
 - name: create plugins install command
   set_fact:
