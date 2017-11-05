@@ -70,18 +70,20 @@
     mode: 0644
 
 
-- name: add eclipse icon to gnome start menu
-  template:
-    src: eclipse.desktop.j2
-    dest: /usr/share/applications/eclipse.desktop
-    owner: root
-    group: root
-    mode: 0644
-
-- name: Copy application shortcut to desktop
-  copy:
-    src: /usr/share/applications/eclipse.desktop
-    dest: /home/vagrant/Desktop/eclipse
+- name: Create start menu and desktop icon
+  block:
+    - file: # Create directory, if not exists
+        path: /home/vagrant/Desktop/
+        state: directory
+    - template:
+        src: eclipse.desktop.j2
+        dest: /usr/share/applications/eclipse.desktop
+        owner: root
+        group: root
+        mode: 0644
+    - copy:
+        src: /usr/share/applications/eclipse.desktop
+        dest: /home/vagrant/Desktop/eclipse.desktop
 
 
 - name: create plugins install command

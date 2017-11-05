@@ -22,19 +22,23 @@
     - git
 
 
-- name: set keyboard layout(s) No.1
+- name: set keyboard layout(s)
   become: true
-  shell: "localectl set-keymap {{ user.keyboard_layouts }}"
-- name: set keyboard layout(s) No.2
-  become: true
-  shell: "localectl set-x11-keymap {{ user.keyboard_layouts }}"
+  block:
+    - shell: "localectl set-keymap {{ user.keyboard_layouts }}"
+    - shell: "localectl set-x11-keymap {{ user.keyboard_layouts }}"
+
 
 
 - name: "prevent initial setup popup (https://seven.centos.org/2013/12/preventing-gnome3s-initial-setup/)"
   when: "box.desktop_environment|lower == 'gnome'"
-  copy:
-    dest: /home/vagrant/.config/gnome-initial-setup-done
-    content: yes
+  block:
+    - file: # Create directory, if not exists
+        path: /home/vagrant/.config/
+        state: directory
+    - copy:
+        dest: /home/vagrant/.config/gnome-initial-setup-done
+        content: yes
 
 - name: create cache dir if not exists
   file:
