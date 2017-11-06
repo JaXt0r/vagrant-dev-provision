@@ -11,7 +11,7 @@ settings:
 
 box:
   name: example
-  distro: mdaehner-centos73-desktop
+  distro: mdaehner/centos-73-desktop
   desktop_environment: Gnome
   usb2: true
   memory: 4096
