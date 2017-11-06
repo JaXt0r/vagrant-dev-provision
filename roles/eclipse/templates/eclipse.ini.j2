@@ -19,10 +19,10 @@ openFile
 -Xms512m
 -Xmx2048m
 {% if (settings.system.use_proxy is defined) and (settings.system.use_proxy == true) %}-Dorg.eclipse.ecf.provider.filetransfer.excludeContributors=org.eclipse.ecf.provider.filetransfer.httpclient
--Dhttp.proxyHost={% if (settings.system.http_proxy is defined) %}{{ settings.system.http_proxy.split(':')[0] }}{% endif %} 
--Dhttp.proxyPort={% if (settings.system.http_proxy is defined) %}{{ settings.system.http_proxy.split(':')[1] }}{% endif %} 
--Dhttp.nonProxyHosts={% if (settings.system.no_proxy is defined) %}{{ settings.system.no_proxy.replace(',','|') }}{% endif %} 
--Dhttps.proxyHost={% if (settings.system.https_proxy is defined) %}{{ settings.system.https_proxy.split(':')[0] }}{% endif %} 
--Dhttps.proxyPort={% if (settings.system.https_proxy is defined) %}{{ settings.system.https_proxy.split(':')[1] }}{% endif %} 
--Dhttps.nonProxyHosts={% if (settings.system.no_proxy is defined) %}{{ settings.system.no_proxy.replace(',','|') }}{% endif %} 
+-Dhttp.proxyHost={% if (settings.system.http_proxy) %}{{ settings.system.http_proxy.split(':')[0] }}{% endif %}
+-Dhttp.proxyPort={% if (settings.system.http_proxy) %}{{ settings.system.http_proxy.split(':')[1] }}{% endif %}
+-Dhttp.nonProxyHosts={% if (settings.system.no_proxy is defined) %}{{ settings.system.no_proxy.replace(',','|') }}{% endif %}
+-Dhttps.proxyHost={% if (settings.system.https_proxy) %}{{ settings.system.https_proxy.split(':')[0] }}{% endif %}
+-Dhttps.proxyPort={% if (settings.system.https_proxy) %}{{ settings.system.https_proxy.split(':')[1] }}{% endif %} 
+-Dhttps.nonProxyHosts={% if (settings.system.no_proxy is defined) %}{{ settings.system.no_proxy.replace(',','|') }}{% endif %}
 {% endif %}
