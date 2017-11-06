@@ -32,6 +32,14 @@
     - shell: "localectl set-x11-keymap {{ user.keyboard_layouts }}"
 
 
+- name: Create Desktop folder if not yet exists
+  file:
+    path: /home/vagrant/Desktop
+    state: directory
+    owner: vagrant
+    group: vagrant
+    mode: u+rwxr,g+xr,o+x
+
 
 - name: "prevent initial setup popup (https://seven.centos.org/2013/12/preventing-gnome3s-initial-setup/)"
   when: "box.desktop_environment|lower == 'gnome'"
@@ -42,6 +50,7 @@
     - copy:
         dest: /home/vagrant/.config/gnome-initial-setup-done
         content: yes
+
 
 - name: create cache dir if not exists
   become: true
