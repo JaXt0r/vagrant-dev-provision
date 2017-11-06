@@ -1,6 +1,5 @@
 - name: general tasks
   hosts: all
-  become: true
   roles:
    - { role: general, tags: ["always"] }
 

@@ -77,10 +77,16 @@
     mode: 0644
 
 - name: Create desktop icon
-  become: false
-  copy:
-    src: /usr/share/applications/eclipse.desktop
-    dest: /home/vagrant/Desktop/eclipse.desktop
+  block:
+    - copy:
+        src: /usr/share/applications/eclipse.desktop
+        dest: /home/vagrant/Desktop/eclipse.desktop
+    - file:
+        path: /home/vagrant/Desktop/eclipse.desktop
+        state: file
+        owner: vagrant
+        group: vagrant
+        mode: ugo+x
 
 
 - name: create plugins install command
