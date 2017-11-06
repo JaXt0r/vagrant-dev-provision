@@ -19,6 +19,7 @@
   with_items:
     - yum-utils
     - "@Development tools"
+    - epel-release # e.g. nodejs
     - git
 
 

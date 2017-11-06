@@ -34,6 +34,7 @@
     backup: yes
 
 - name: Copy application shortcut to desktop
+  become: false
   copy:
     src: /usr/share/applications/atom.desktop
-    dest: /home/vagrant/Desktop/atom
+    dest: /home/vagrant/Desktop/atom.desktop

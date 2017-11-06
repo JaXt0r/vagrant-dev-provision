@@ -33,25 +33,23 @@
     state: directory
 
 
-- name: download eclipse archive
-  get_url:
-    url:  "{{ eclipse_download_url }}"
-    dest: "{{ eclipse_package_download_path}}"
-
-
-- name: unpack eclipse archives
-  unarchive:
-    src: "{{ eclipse_package_download_path }}"
-    dest: "{{ eclipse_install_dir }}"
-    creates: "{{ eclipse_ini_path }}"
+- name: download and unpack eclipse archive
+  block:
+    - get_url:
+        url:  "{{ eclipse_download_url }}"
+        dest: "{{ eclipse_package_download_path}}"
+    - unarchive:
+        src: "{{ eclipse_package_download_path }}"
+        dest: "{{ eclipse_install_dir }}"
+        creates: "{{ eclipse_ini_path }}"
 
 
 - name: configure eclipse settings
   template:
     src: eclipse.ini.j2
     dest: "{{ eclipse_ini_path }}"
-    owner: root
-    group: root
+    owner: vagrant
+    group: vagrant
     mode: 0644
 
 
@@ -70,20 +68,19 @@
     mode: 0644
 
 
-- name: Create start menu and desktop icon
-  block:
-    - file: # Create directory, if not exists
-        path: /home/vagrant/Desktop/
-        state: directory
-    - template:
-        src: eclipse.desktop.j2
-        dest: /usr/share/applications/eclipse.desktop
-        owner: root
-        group: root
-        mode: 0644
-    - copy:
-        src: /usr/share/applications/eclipse.desktop
-        dest: /home/vagrant/Desktop/eclipse.desktop
+- name: Create start menu icon
+  template:
+    src: eclipse.desktop.j2
+    dest: /usr/share/applications/eclipse.desktop
+    owner: vagrant
+    group: vagrant
+    mode: 0644
+
+- name: Create desktop icon
+  become: false
+  copy:
+    src: /usr/share/applications/eclipse.desktop
+    dest: /home/vagrant/Desktop/eclipse.desktop
 
 
 - name: create plugins install command
