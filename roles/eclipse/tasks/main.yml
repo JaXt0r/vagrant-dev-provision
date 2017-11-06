@@ -86,7 +86,7 @@
         state: file
         owner: vagrant
         group: vagrant
-        mode: ugo+x
+        mode: u+x
 
 
 - name: create plugins install command
