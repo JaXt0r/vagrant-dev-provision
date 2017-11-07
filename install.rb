@@ -166,7 +166,7 @@ end
 
 
 def install_plugins()
-  required_plugins = %w(vagrant-vbguest vagrant-cachier kwalify)
+  required_plugins = %w(vagrant-vbguest vagrant-proxyconf vagrant-cachier kwalify)
 
   plugins_to_install = required_plugins.select { |plugin| not Vagrant.has_plugin? plugin }
   if not plugins_to_install.empty?
