@@ -8,7 +8,6 @@
 
 
 - name: fix openssl bug (https://stackoverflow.com/a/46476879)
-  when: settings.system.use_proxy
   yum:
     name: openssl
     state: latest
